@@ -3,9 +3,13 @@ const BASE_URL = 'https://api.fda.gov/drug/label.json';
 export const searchMedicine = async (query) => {
   if (!query) return [];
   try {
-    const response = await fetch(`${BASE_URL}?search=(openfda.brand_name:"${query}"+openfda.generic_name:"${query}")&limit=12`);
+    // Clean the query and use wildcards for broader, more forgiving search results
+    const safeQuery = encodeURIComponent(query.trim().toLowerCase());
+    
+    const response = await fetch(`${BASE_URL}?search=(openfda.brand_name:*${safeQuery}*+openfda.generic_name:*${safeQuery}*)&limit=12`);
+    
     if (!response.ok) {
-      if (response.status === 404) return []; // OpenFDA returns 404 for no results
+      if (response.status === 404) return []; // OpenFDA returns 404 when no results are found
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
