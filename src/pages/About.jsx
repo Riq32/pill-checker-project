@@ -1,26 +1,40 @@
+import { ShieldCheck, Database, Search, FileText } from 'lucide-react';
+
 const About = () => {
   return (
-    <div className="max-w-3xl mx-auto py-8">
-      <h1 className="text-3xl font-bold text-navy-900 mb-6">About PillChecker</h1>
+    <div className="max-w-6xl mx-auto py-8 animate-in fade-in duration-500">
       
-      <div className="bg-white p-8 rounded-lg shadow-sm border border-neutral-200 space-y-6 text-gray-700 leading-relaxed">
-        <section>
-          <h2 className="text-xl font-semibold text-navy-800 mb-2">What is PillChecker?</h2>
-          <p>PillChecker is a consumer-facing medicine information web application designed to help people quickly access clear, structured data about unfamiliar medicines and available interaction-related warnings.</p>
-        </section>
+      <div className="text-center mb-16 space-y-4">
+        <div className="inline-flex items-center justify-center p-4 bg-teal-100 dark:bg-teal-900/50 rounded-full mb-4">
+          <ShieldCheck className="w-12 h-12 text-teal-600 dark:text-teal-400" />
+        </div>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-indigo-950 dark:text-white tracking-tight">
+          Clarity before you combine.
+        </h1>
+        <p className="text-xl text-gray-600 dark:text-slate-300 max-w-2xl mx-auto">
+          PillChecker decodes complex FDA drug labels into a scannable, modern interface so you can find interaction warnings faster.
+        </p>
+      </div>
 
-        <section>
-          <h2 className="text-xl font-semibold text-navy-800 mb-2">Data Source</h2>
-          <p>All medication information displayed on this application is dynamically sourced from the <strong>OpenFDA API</strong>. This API provides public access to FDA-approved drug labels and warnings.</p>
-        </section>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {[
+          { icon: <Search />, title: "The Problem", text: "Official drug labels are dense and difficult to read. Important warnings get lost in walls of clinical text." },
+          { icon: <FileText />, title: "How It Works", text: "We fetch structured product labeling (SPL) directly from the FDA and organize it into clean, accessible cards." },
+          { icon: <Database />, title: "Data Source", text: "Powered exclusively by the OpenFDA API, ensuring all text comes directly from manufacturer-submitted labels." }
+        ].map((feature, idx) => (
+          <div key={idx} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-md border border-white/40 dark:border-slate-700 shadow-xl shadow-indigo-900/5 rounded-2xl p-8 hover:-translate-y-1 transition-all">
+            <div className="text-teal-600 dark:text-teal-400 mb-4">{feature.icon}</div>
+            <h3 className="text-xl font-bold text-indigo-950 dark:text-white mb-2">{feature.title}</h3>
+            <p className="text-gray-600 dark:text-slate-300 leading-relaxed">{feature.text}</p>
+          </div>
+        ))}
+      </div>
 
-        <section>
-          <h2 className="text-xl font-semibold text-navy-800 mb-2">Limitations</h2>
-          <p>This tool relies solely on the data formatted and returned by the OpenFDA endpoint. If a specific warning or interaction is not listed on a drug's official label data in the API, it will not appear here.</p>
-        </section>
-        
-        <div className="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-md text-amber-900 text-sm">
-          <strong>Medical Disclaimer:</strong> PillChecker provides general medication information and does not replace advice from a qualified healthcare professional. Do not use this application to diagnose conditions or verify the absolute safety of drug combinations.
+      <div className="flex flex-col items-center justify-center border-t border-neutral-200 dark:border-slate-800 pt-10 mb-16">
+        <p className="text-sm font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-widest mb-6">Data Infrastructure Powered By</p>
+        <div className="flex gap-8 items-center opacity-70 grayscale">
+          <div className="flex items-center gap-2 text-xl font-bold dark:text-slate-300"><Database /> openFDA</div>
+          <div className="flex items-center gap-2 text-xl font-bold dark:text-slate-300"><FileText /> RxNorm</div>
         </div>
       </div>
     </div>

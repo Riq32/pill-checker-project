@@ -1,21 +1,48 @@
 const BASE_URL = 'https://api.fda.gov/drug/label.json';
+const ENFORCEMENT_URL = 'https://api.fda.gov/drug/enforcement.json';
 const apiCache = new Map();
 
 export const searchMedicines = async (query) => {
   if (!query) return [];
-  const cacheKey = `search_${query.toLowerCase()}`;
-  if (apiCache.has(cacheKey)) return apiCache.get(cacheKey);
-
+  const safeQuery = encodeURIComponent(query.trim().toLowerCase());
+  
   try {
-    const safeQuery = encodeURIComponent(query.trim().toLowerCase());
-    const response = await fetch(`${BASE_URL}?search=(openfda.brand_name:*${safeQuery}*+openfda.generic_name:*${safeQuery}*)&limit=10`);
+    const response = await fetch(`${BASE_URL}?search=openfda.brand_name:"${safeQuery}"+openfda.generic_name:"${safeQuery}"&limit=50`);
+    if (!response.ok) return [];
     
-    if (!response.ok) return response.status === 404 ? [] : [];
     const data = await response.json();
-    apiCache.set(cacheKey, data.results || []);
-    return data.results || [];
+    const rawResults = data.results || [];
+
+    const cleanedResults = rawResults.map(item => {
+      const openfda = item.openfda || {};
+      const brand = openfda.brand_name?.[0];
+      const generic = openfda.generic_name?.[0];
+      
+      return {
+        ...item,
+        primaryName: brand || generic || 'Unknown',
+        isBrand: !!brand,
+        genericName: generic || 'Not specified',
+        dosageForm: openfda.dosage_form?.[0] || 'Unknown Form',
+        manufacturer: openfda.manufacturer_name?.[0] || 'Unknown Manufacturer'
+      };
+    });
+
+    const validResults = cleanedResults.filter(med => med.primaryName !== 'Unknown');
+
+    const seen = new Set();
+    const deduplicated = validResults.filter(med => {
+      const uniqueKey = `${med.genericName.toLowerCase()}-${med.dosageForm.toLowerCase()}`;
+      if (seen.has(uniqueKey)) return false;
+      seen.add(uniqueKey);
+      return true;
+    });
+
+    const sorted = deduplicated.sort((a, b) => (a.isBrand === b.isBrand ? 0 : a.isBrand ? -1 : 1));
+    return sorted.slice(0, 15);
+
   } catch (error) {
-    console.error("API Error:", error);
+    console.error("OpenFDA Search Error:", error);
     throw error;
   }
 };
@@ -68,4 +95,17 @@ export const checkInteractionMentions = (drugA, drugB) => {
     mentionInA: extractSnippet(textA, nameB),
     mentionInB: extractSnippet(textB, nameA)
   };
+};
+
+export const checkRecallStatus = async (drugName) => {
+  if (!drugName) return null;
+  try {
+    const query = encodeURIComponent(drugName.toLowerCase());
+    const res = await fetch(`${ENFORCEMENT_URL}?search=product_description:"${query}"+AND+status:"Ongoing"&limit=1`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.results?.[0] || null;
+  } catch {
+    return null; 
+  }
 };

@@ -33,7 +33,6 @@ const Navbar = () => {
             ))}
           </div>
           
-          {/* Theme Toggle Button */}
           <button 
             onClick={toggleTheme}
             aria-label="Toggle Dark Mode"
