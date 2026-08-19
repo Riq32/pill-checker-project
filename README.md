@@ -1,16 +1,29 @@
-# React + Vite
+# PillChecker 💊
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, React-based healthcare interface that decodes complex FDA drug labels into a scannable format, helping users quickly identify medication interaction warnings and safety alerts. 
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* **Direct FDA Integration:** Queries the OpenFDA API in real-time to fetch Structured Product Labeling (SPL) data.
+* **Smart Interaction Checker:** Evaluates potential interactions between two medications by cross-referencing contraindication, drug interaction, and warning fields using substring matching.
+* **Data Cleaning & Deduplication:** Intercepts highly redundant OpenFDA payload data at the service layer, deduplicating entries via composite keys (generic name + dosage form) and sorting by brand recognition to ensure high-quality search results.
+* **Persistent Theme Management:** App-wide dark and light mode built with a custom React Context and Tailwind CSS v4, seamlessly falling back to the user's OS-level `prefers-color-scheme`.
+* **Glassmorphism Design:** A fully responsive, accessible UI utilizing a teal and indigo palette, soft shadows, and dynamic background overlays.
 
-## React Compiler
+## 🛠 Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Frontend:** React (Vite), React Router DOM
+* **Styling:** Tailwind CSS v4, Lucide React (Icons)
+* **Architecture:** Context API (Theme state management), Service-oriented API layer
+* **Data Source:** [OpenFDA API](https://open.fda.gov/) (Drug Label endpoint)
 
-## Expanding the ESLint configuration
+## 📦 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Riq32/pill-checker-project.git
