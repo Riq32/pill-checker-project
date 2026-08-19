@@ -1,26 +1,17 @@
 @import "tailwindcss";
 
-/* Overrides default system-only dark mode to support the class toggle */
+/* Enables class-based dark mode toggle */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Primary Navy */
   --color-navy-800: #1e3a8a;
   --color-navy-900: #172554;
-  
-  /* Secondary Teal */
   --color-teal-500: #14b8a6;
   --color-teal-600: #0d9488;
-  
-  /* Warning & Error */
   --color-amber-500: #f59e0b;
   --color-red-600: #dc2626;
-  
-  /* Neutrals */
   --color-neutral-50: #f9fafb;
   --color-neutral-100: #f3f4f6;
-
-  /* Typography */
   --font-sans: "Inter", sans-serif;
 }
 

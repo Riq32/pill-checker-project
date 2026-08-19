@@ -1,6 +1,5 @@
 export const formatMedicineData = (apiResult) => {
   if (!apiResult) return null;
-  
   const openfda = apiResult.openfda || {};
   
   return {
