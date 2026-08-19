@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { searchMedicine } from '../services/openfda';
+import { searchMedicines } from '../services/openfda'; // Updated import
 import { formatMedicineData } from '../utils/formatMedicineData';
 
 export const useMedicineSearch = () => {
@@ -11,7 +11,8 @@ export const useMedicineSearch = () => {
     setLoading(true);
     setError(null);
     try {
-      const rawResults = await searchMedicine(query);
+      // Updated function call
+      const rawResults = await searchMedicines(query);
       const formatted = rawResults.map(formatMedicineData);
       setResults(formatted);
     } catch (err) {
