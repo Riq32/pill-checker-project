@@ -1,8 +1,15 @@
+import { ShieldAlert } from 'lucide-react';
+
 const Disclaimer = () => (
-  <footer className="bg-neutral-100 border-t border-neutral-200 mt-auto py-6">
-    <div className="container mx-auto px-4 text-center text-sm text-gray-500 max-w-4xl">
-      <p className="font-semibold text-gray-700 mb-1">Medical Disclaimer</p>
-      <p>PillChecker provides general medication information sourced from publicly available APIs (OpenFDA) and does not replace advice from a qualified healthcare professional. Do not use this information for diagnosing or treating a health problem.</p>
+  <footer className="w-full mt-auto py-8 px-4">
+    <div className="max-w-5xl mx-auto bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-red-200 dark:border-red-900/50 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row gap-4 items-start">
+      <ShieldAlert className="w-6 h-6 text-red-600 dark:text-red-500 flex-shrink-0 mt-1" />
+      <div>
+        <h4 className="font-bold text-red-900 dark:text-red-400 mb-2 uppercase tracking-wider text-sm">Regulatory & Safety Notice</h4>
+        <p className="text-red-800 dark:text-red-300 text-sm leading-relaxed">
+          PillChecker is an informational tool querying FDA Structured Product Labeling (SPL) data. It is not a diagnostic tool and does not provide clinical decision support. Interaction mentions rely entirely on string matches within manufacturer-provided fields. Do not alter medication regimens based on this interface. Always consult a licensed healthcare professional for medical advice.
+        </p>
+      </div>
     </div>
   </footer>
 );
